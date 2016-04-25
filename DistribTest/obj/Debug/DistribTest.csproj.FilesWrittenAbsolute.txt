@@ -1,0 +1,6 @@
+/home/ferdinand/Projects/Distrib/DistribTest/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/ferdinand/Projects/Distrib/DistribTest/bin/Debug/DistribTest.exe.mdb
+/home/ferdinand/Projects/Distrib/DistribTest/bin/Debug/DistribTest.exe
+/home/ferdinand/Projects/Distrib/DistribTest/bin/Debug/Distrib.dll
+/home/ferdinand/Projects/Distrib/DistribTest/obj/Debug/DistribTest.exe
+/home/ferdinand/Projects/Distrib/DistribTest/obj/Debug/DistribTest.exe.mdb
