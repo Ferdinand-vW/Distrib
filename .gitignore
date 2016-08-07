@@ -1,7 +1,12 @@
 *.exe
 Distrib/Distrib.csproj
 Distrib/bin
+Distrib/Properties
 Distrib/obj
+DistribTest/DistribTest.csproj
 DistribTest/bin
+DistribTest/Properties
 DistribTest/obj
 .idea*
+Distrib.sln*
+
