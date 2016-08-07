@@ -1,5 +1,0 @@
-/home/ferdinand/Projects/Distrib/Distrib/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/ferdinand/Projects/Distrib/Distrib/bin/Debug/Distrib.dll.mdb
-/home/ferdinand/Projects/Distrib/Distrib/bin/Debug/Distrib.dll
-/home/ferdinand/Projects/Distrib/Distrib/obj/Debug/Distrib.dll
-/home/ferdinand/Projects/Distrib/Distrib/obj/Debug/Distrib.dll.mdb

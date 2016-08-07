@@ -84,7 +84,7 @@ namespace Distrib
       try
       {
         _listener = StartTcp();
-        Thread messageReceiver = new Thread(WaitForConnections);
+        var messageReceiver = new Thread(WaitForConnections);
         messageReceiver.Start();
       }
       catch(Exception e)
@@ -95,16 +95,30 @@ namespace Distrib
 
     private void WaitForConnections()
     {
-      while (_alive)
+      if (_alive)
       {
         Console.WriteLine("Start waiting for connections");
-        TcpClient client = _listener.AcceptTcpClient();
-        _connections.Add(client);
-        Console.WriteLine("Accepted a connection");
-        Task t = new Task(() => HandleConnection(client));
-        t.Start();
+        _listener.BeginAcceptTcpClient(new AsyncCallback(AcceptTcpClient), null);
+      }
+      else
+      {
+        Console.WriteLine("test");
+        _listener.Stop();
       }
     }
+
+    private void AcceptTcpClient(IAsyncResult asyncResult)
+    {
+      Console.WriteLine("test1");
+      var client = _listener.EndAcceptTcpClient(asyncResult);
+      _connections.Add(client);
+      Console.WriteLine("Accepted a connection");
+      var t = new Task(() => HandleConnection(client));
+      t.Start();
+
+      WaitForConnections();
+    }
+
 
     private void HandleConnection(TcpClient client)
     {
@@ -115,20 +129,18 @@ namespace Distrib
         IFormatter formatter = new BinaryFormatter();
         while(client.Connected) //Keep receiving messages as long as the connection remains
         {
-          Message msg = (Message) formatter.Deserialize(stream);
-          Process p = _processGroup[msg.ProcessId];
+          var msg = (Message) formatter.Deserialize(stream);
+          var p = _processGroup[msg.ProcessId];
           p.MailBox.Add(msg.Msg); //Add the message to the mailbox of the corresponding process
         }
         _connections.Remove(client); //Connection is closed
       }
-
-
     }
 
     private TcpListener StartTcp()
     {
-      IPAddress ipAddress = IPAddress.Parse(_id.Host);
-      TcpListener listener = new TcpListener(ipAddress,_id.Port);
+      var ipAddress = IPAddress.Parse(_id.Host);
+      var listener = new TcpListener(ipAddress,_id.Port);
       listener.Start();
       return listener;
     }
@@ -138,11 +150,15 @@ namespace Distrib
       return _processGroup.TryAdd(p.ProcessId, p);
     }
 
+
+    ///
+    /// Forcefully shutdown the node
+    ///
     public void ShutDown()
     {
       _alive = false; //Stop the listener loop
       _connections.ForEach(x => x.Close()); //Shutdown all connections
-      _listener.Stop(); //Stop the listener itself
+      //_listener.Stop(); //Stop the listener itself
     }
 
     //Force shutdown??

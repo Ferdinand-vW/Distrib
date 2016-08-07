@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Threading;
 using Distrib;
 
@@ -10,7 +11,10 @@ namespace DistribTest
         static void Main(string[] args)
         {
           Node n = new Node("127.0.0.1", 44444);
+          Node n2 = new Node("127.0.0.1", 44445);
+          n2.Init(Communicate);
           n.Init(Computation);
+          Thread.Sleep(1000);
           n.ShutDown();
           Console.ReadLine();
         }
@@ -27,6 +31,13 @@ namespace DistribTest
         Console.WriteLine(sum);
         Console.WriteLine("done");
       }
+
+      static void Communicate()
+      {
+        Process myProcess = Process.Current;
+        myProcess.Send(pid, message);
+      }
+
 
     }
 }

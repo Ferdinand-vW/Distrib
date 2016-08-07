@@ -1,1 +1,7 @@
 *.exe
+Distrib/Distrib.csproj
+Distrib/bin
+Distrib/obj
+DistribTest/bin
+DistribTest/obj
+.idea*

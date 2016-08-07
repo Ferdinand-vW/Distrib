@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,6 +68,20 @@ namespace Distrib
     //unrelay
     //link
     //unlink
+
+    public void Send(ProcessId pid, Message m)
+    {
+      var nId = pid.NodeId;
+      using(var tcpClient = new TcpClient(nId.Host,nId.Port))
+      {
+        NetworkStream stream = tcpClient.GetStream();
+
+        var formatter = new BinaryFormatter();
+        formatter.Serialize(stream, m);
+      }
+
+    }
+
   }
 
   public class ProcessId
